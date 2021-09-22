@@ -12,15 +12,24 @@ function findBookById(books, id) {
   return findBook;
 }
 
-function partitionBooksByBorrowedStatus(books) {
-  const booksBorrowed = books.filter(
+/* [**helper function**] */
+//created this helper function for partitionBooksByBorrowedStatus()
+function borrowed(books) {
+  let booksOut = books.filter(
     (book) => book.borrows[0].returned === false
   );
-  const booksReturned = books.filter(
-    (book) => book.borrows[0].returned === true
-  );
+  //console.log(booksOut);
+  return booksOut;
+}
 
-  let finalArr = [[...booksBorrowed], [...booksReturned]];
+function partitionBooksByBorrowedStatus(books) {
+  let booksBorrowed = borrowed;
+  const booksReturned = books.filter(
+  (book) => book.borrows[0].returned === true
+   );
+   const booksGone = booksBorrowed(books);
+  let finalArr = [[...booksGone], [...booksReturned]]
+  //let finalArr = [[...booksBorrowed], [...booksReturned]];
   // console.log(finalArr);
   return finalArr;
 }
@@ -33,6 +42,7 @@ function partitionBooksByBorrowedStatus(books) {
   //loop through and stop at 10 borrowes (let i = 10) .slice(0, 11)
   //console.log(newArr);
 
+
 function getBorrowersForBook(book, accounts) {
   let accountId = findAccountById;
   let newArr = book.borrows.map((borrower) => {
@@ -41,6 +51,9 @@ function getBorrowersForBook(book, accounts) {
   });
   return newArr.slice(0, 10);
 }
+
+//for getBorrowersForBook function 
+//I used the findAccountById() function from the accounts.js page
 
 module.exports = {
   findAuthorById,

@@ -17,6 +17,7 @@ function getBooksBorrowedCount(books) {
 //use .sort to find common genres -
 //for loop that stops at numbered return (top 5 genres only)
 
+
 function getMostCommonGenres(books) {
   let genres = books.reduce((acc, book) => {
     if (acc[book.genre]) {
@@ -35,11 +36,11 @@ function getMostCommonGenres(books) {
 }
 
 function getMostPopularBooks(books) {
+  //let popularBooks = [];
   const groupById = books.reduce((acc, book) => {
     acc[book.id] = book.borrows.length;
     return acc;
   }, {});
-
   const keys = Object.keys(groupById);
   let sorted = keys.sort((keyA, keyB) => groupById[keyB] - groupById[keyA]);
   let newArr = sorted.map((id) => {
@@ -49,6 +50,22 @@ function getMostPopularBooks(books) {
   });
   return newArr.slice(0, 5);
 }
+
+/*
+function getMostPopularBooks(books) {
+  const groupById = books.reduce((acc, book) => {
+    acc[book.id] = book.borrows.length;
+    return acc;
+  }, {});
+  const keys = Object.keys(groupById);
+  let sorted = keys.sort((keyA, keyB) => groupById[keyB] - groupById[keyA]);
+  let newArr = sorted.map((id) => {
+    let book = books.find((book) => book.id === id);
+    let count = groupById[id];
+    return { name: book.title, count: count };
+  });
+  return newArr.slice(0, 5);
+} */
 
 //returning an array needs an empty array >[]
 //create const to get author object needed for result
@@ -74,8 +91,7 @@ function getMostPopularAuthors(books, authors) {
     });
     topFiveAuthors.push(popularAuthors);
   });
-
-  topFiveAuthors.sort((bottom, top) => top.count - bottom.count);
+    topFiveAuthors.sort((bottom, top) => top.count - bottom.count);
   return topFiveAuthors.slice(0, 5);
 }
 
